@@ -1,0 +1,36 @@
+{
+    "name": "youpks/frontend-presets",
+    "description": "",
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Youpks\\FrontendPresets\\": "src/"
+        },
+        "files": [
+            "functions/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Youpks\\FrontendPresets\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Youpks\\FrontendPresets\\Providers\\FrontendPresetServiceProvider",
+                "Youpks\\FrontendPresets\\Providers\\TailwindCssPresetServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}

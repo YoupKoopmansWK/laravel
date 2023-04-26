@@ -1,0 +1,19 @@
+<?php
+
+namespace {{namespace}}Http\Controllers\Page;
+
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class {{CamelCaseTitle}}PageController extends Controller
+{
+    /**
+     * Show the {{title}} page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke(): View
+    {
+        return view('pages.{{kebab-case-title}}');
+    }
+}
