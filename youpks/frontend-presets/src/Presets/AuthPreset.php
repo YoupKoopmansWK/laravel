@@ -53,7 +53,7 @@ class AuthPreset extends Preset
     {
         file_put_contents(
             routes_path('web.php'),
-            "\n\nRoute::get('home', \App\Http\Controllers\Page\HomePageController::class)->name('home');",
+            "\n\nRoute::get('home', \App\Http\Controllers\Page\HomePageController::class)->name('page.home');",
             FILE_APPEND
         );
     }
