@@ -10,7 +10,7 @@
                     {{ __('Reset Password') }}
                 </header>
 
-                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" method="POST" action="{{ route('password.update') }}">
+                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" method="POST" action="{{ route('auth.password.update') }}">
                     @csrf
 
                     <input type="hidden" name="token" value="{{ $token }}">

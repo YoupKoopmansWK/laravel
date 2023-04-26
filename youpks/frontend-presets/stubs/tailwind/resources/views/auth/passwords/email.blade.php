@@ -17,7 +17,7 @@
                     {{ __('Reset Password') }}
                 </header>
 
-                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" method="POST" action="{{ route('password.email') }}">
+                <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" method="POST" action="{{ route('auth.password.email') }}">
                     @csrf
 
                     <div class="flex flex-wrap">
@@ -43,7 +43,7 @@
                         </button>
 
                         <p class="mt-4 text-xs text-blue-500 hover:text-blue-700 whitespace-no-wrap no-underline hover:underline sm:text-sm sm:order-0 sm:m-0">
-                            <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('login') }}">
+                            <a class="text-blue-500 hover:text-blue-700 no-underline" href="{{ route('auth.login') }}">
                                 {{ __('Back to login') }}
                             </a>
                         </p>

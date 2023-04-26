@@ -6,31 +6,12 @@ namespace Youpks\FrontendPresets\Traits;
 
 use Youpks\FrontendPresets\Exceptions\FileException;
 use Youpks\FrontendPresets\Exceptions\DirectoryException;
-use Youpks\FrontendPresets\Providers\FrontendPresetServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use SplFileInfo;
 
 trait FileSupport
 {
-    public static string $stubPath = '/'.FrontendPresetServiceProvider::FRONTEND_PRESET_STUB_PATH;
-
-    /**
-     * Get the suffix path.
-     *
-     * @param string|null $path
-     * @return void
-     */
-    public function setStubPath(string $path = null): void
-    {
-        self::$stubPath .= (isset($path) ? '/'.$path.'/' : null);
-    }
-
-    public static function getStubPath(): string
-    {
-        return self::$stubPath;
-    }
-
     /**
      * Get file from path.
      *
@@ -58,18 +39,17 @@ trait FileSupport
      *
      * @param SplFileInfo $file
      * @param string $directory
-     * @return string
+     * @param string|null $outputFileName
+     * @return void
      *
-     * @throws FileException
      */
-    public static function copyFile(SplFileInfo $file, string $directory): void
+    public static function copyFile(SplFileInfo $file, string $directory, string $outputFileName = null): void
     {
-        $path = $directory.$file->getFilename();
+        $fileName = $outputFileName ?? $file->getFilename();
+        $path = "$directory/$fileName";
 
         if (! (new Filesystem)->exists($path)) {
-            copy($file->getRealPath(), $path);
-        } else {
-            throw new FileException("File already exists: [ $path ]");
+            copy($file->getPathname(), $path);
         }
     }
 
@@ -84,13 +64,11 @@ trait FileSupport
      */
     public static function deleteFile(SplFileInfo $file, string $directory): void
     {
-        $path = $directory.$file->getFilename();
+        $path = $directory.'/'.$file->getFilename();
 
         tap(new Filesystem, static function ($filesystem) use ($path) {
             if ($filesystem->exists($path)) {
                 $filesystem->delete($path);
-            } else {
-                throw new FileException("File not existing: [ $path ]");
             }
         });
     }
@@ -108,8 +86,6 @@ trait FileSupport
         tap(new Filesystem, static function ($filesystem) use ($directory) {
             if (! $filesystem->isDirectory($directory)) {
                 $filesystem->makeDirectory($directory, 0755, true);
-            } else {
-                throw new DirectoryException("Directory already exists: [ $directory ]");
             }
         });
     }
@@ -128,8 +104,6 @@ trait FileSupport
         tap(new Filesystem, static function ($filesystem) use ($oldPath, $newPath) {
             if ($filesystem->isDirectory($oldPath)) {
                 $filesystem->copyDirectory($oldPath, $newPath);
-            } else {
-                throw new DirectoryException("Directory already exists: [ $newPath ]");
             }
         });
     }
@@ -147,8 +121,6 @@ trait FileSupport
         tap(new Filesystem, static function ($filesystem) use ($directory) {
             if ($filesystem->isDirectory($directory)) {
                 $filesystem->deleteDirectory($directory);
-            } else {
-                throw new DirectoryException("Directory not existing: [ $directory ]");
             }
         });
     }

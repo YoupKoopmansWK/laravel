@@ -11,11 +11,11 @@ class AuthRouterPublisher
 {
     use FileSupport;
 
-    public static function publish(): void
+    public static function publish(string $stubPath): void
     {
         self::createAuthRoutesDirectory();
-        self::copyAuthRoutesFiles();
-        self::createAuthRoutesMainFile();
+        self::copyAuthRoutesFiles($stubPath);
+        self::createAuthRoutesMainFile($stubPath);
     }
 
     private static function createAuthRoutesDirectory(): void
@@ -23,9 +23,9 @@ class AuthRouterPublisher
         self::makeDirectory(routes_path('auth'));
     }
 
-    private static function copyAuthRoutesFiles(): void
+    private static function copyAuthRoutesFiles(string $stubPath): void
     {
-        self::getFiles(routes_path('auth', self::getStubPath()))->each(static fn (SplFileInfo $file) =>
+        self::getFiles(routes_path('auth', $stubPath))->each(static fn (SplFileInfo $file) =>
             self::copyFile(
                 $file,
                 routes_path('auth')
@@ -33,10 +33,10 @@ class AuthRouterPublisher
         );
     }
 
-    private static function createAuthRoutesMainFile(): void
+    private static function createAuthRoutesMainFile(string $stubPath): void
     {
         self::copyFile(
-            self::getFile(routes_path('auth.php', self::getStubPath())),
+            self::getFile(routes_path('auth.php', $stubPath)),
             routes_path()
         );
     }

@@ -5,39 +5,26 @@ declare(strict_types=1);
 namespace Youpks\FrontendPresets\Presets;
 
 use Illuminate\Support\Arr;
-use Laravel\Ui\Presets\Preset;
 use Youpks\FrontendPresets\Traits\FileSupport;
 
 class TailwindCssPreset extends Preset
 {
     use FileSupport;
 
-    private static bool $authOption;
-
-    public function __construct()
-    {
-        $this->setStubPath('tailwind/');
-    }
-
     public static function install(bool $authOption = false): void
     {
-        static::setAuthOption($authOption);
+        static::setStubPath('tailwind');
 
         static::updatePackages();
         static::updateStyles();
         static::updateBootstrapping();
         static::updateWelcomePage();
 
-        if(self::$authOption) {
+        if($authOption) {
             static::scaffoldAuthViews();
         }
 
         static::removeNodeModules();
-    }
-
-    private static function setAuthOption(bool $authOption): void
-    {
-        self::$authOption = $authOption;
     }
 
     protected static function updatePackageArray(array $packages): array
@@ -64,7 +51,7 @@ class TailwindCssPreset extends Preset
 
         self::copyFile(
             self::getFile(self::getStubPath().'resources/css/app.css'),
-            resource_path('css/app.css')
+            resource_path('css')
         );
     }
 
@@ -77,7 +64,7 @@ class TailwindCssPreset extends Preset
         ])->each(static fn (string $file) =>
             self::copyFile(
                 self::getFile(self::getStubPath(). ($file)),
-                base_path($file)
+                base_path()
             )
         );
     }
@@ -91,7 +78,7 @@ class TailwindCssPreset extends Preset
 
         self::copyFile(
             self::getFile(self::getStubPath().'resources/views/welcome.blade.php'),
-            resource_path('views/welcome.blade.php')
+            resource_path('views')
         );
     }
 

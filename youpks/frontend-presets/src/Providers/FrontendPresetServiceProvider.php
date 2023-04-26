@@ -8,10 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FrontendPresetServiceProvider extends ServiceProvider
 {
-    public const FRONTEND_PRESET_STUB_PATH = __DIR__.'/../stubs';
-
     public function boot(): void
     {
-
     }
 }
