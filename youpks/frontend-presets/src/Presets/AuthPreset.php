@@ -30,12 +30,12 @@ class AuthPreset extends Preset
 
     protected static function scaffoldAuthControllers(): void
     {
-        Directory::make(app_path('Http/Controllers/Auth'));
+        Directory::make(Path::app('Http/Controllers/Auth'));
 
-        File::collection(base_path('vendor/laravel/ui/stubs/Auth'))->each(static fn (SplFileInfo $file) =>
+        File::collection(Path::base('vendor/laravel/ui/stubs/Auth'))->each(static fn (SplFileInfo $file) =>
             File::copy(
                 $file,
-                app_path('Http/Controllers/Auth'),
+                Path::app('Http/Controllers/Auth'),
                 Str::replaceLast('.stub', '.php', $file->getFilename())
             )
         );
@@ -45,9 +45,9 @@ class AuthPreset extends Preset
     {
         $pageTitle = 'Home';
 
-        Directory::make(app_path('Http/Controllers/Page'));
+        Directory::make(Path::app('Http/Controllers/Page'));
 
-        file_put_contents(app_path("Http/Controllers/Page/{$pageTitle}PageController.php"), static::compilePageControllerStub($pageTitle));
+        file_put_contents(Path::app("Http/Controllers/Page/{$pageTitle}PageController.php"), static::compilePageControllerStub($pageTitle));
     }
 
     protected static function scaffoldHomePageRoute(): void
@@ -72,10 +72,10 @@ class AuthPreset extends Preset
 
     protected static function scaffoldMigrations(): void
     {
-        File::collection(base_path('vendor/laravel/ui/stubs/migrations'))->each(static fn (SplFileInfo $file) =>
+        File::collection(Path::base('vendor/laravel/ui/stubs/migrations'))->each(static fn (SplFileInfo $file) =>
             File::copy(
                 $file,
-                database_path('migrations')
+                Path::database('migrations')
             )
         );
     }

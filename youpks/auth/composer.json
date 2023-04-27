@@ -1,0 +1,43 @@
+{
+    "name": "youpks/auth",
+    "description": "",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../support",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0",
+        "youpks/support": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Youpks\\Auth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Youpks\\Auth\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Youpks\\Auth\\Providers\\AuthServiceProvider",
+                "Youpks\\Auth\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}

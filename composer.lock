@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78aa7426b432ee26fedb063119533dd4",
+    "content-hash": "0887ceeac35fd23183aece18f6e65b84",
     "packages": [
         {
             "name": "brick/math",
@@ -5743,6 +5743,44 @@
             "time": "2022-06-03T18:03:27+00:00"
         },
         {
+            "name": "youpks/auth",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "youpks/auth",
+                "reference": "53d8aad9d77f2fab243337248f96a9db50dfa134"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.1",
+                "youpks/support": "@dev"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Youpks\\Auth\\Providers\\AuthServiceProvider",
+                        "Youpks\\Auth\\Providers\\RouteServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Youpks\\Auth\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Youpks\\Auth\\Tests\\": "tests/"
+                }
+            },
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "youpks/frontend-presets",
             "version": "dev-main",
             "dist": {
@@ -9675,8 +9713,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "youpks/support": 20,
-        "youpks/frontend-presets": 20
+        "youpks/auth": 20,
+        "youpks/frontend-presets": 20,
+        "youpks/support": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

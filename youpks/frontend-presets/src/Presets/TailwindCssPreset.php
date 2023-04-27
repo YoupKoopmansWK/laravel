@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Youpks\FrontendPresets\Presets;
 
+use Youpks\FrontendPresets\Providers\FrontendPresetServiceProvider;
 use Youpks\Support\Directory;
 use Youpks\Support\File;
 use Youpks\Support\Path;
@@ -13,6 +14,7 @@ class TailwindCssPreset extends Preset
 {
     public static function install(bool $authOption = false): void
     {
+        Path::setRoot(FrontendPresetServiceProvider::ROOT);
         Path::setStub('tailwind');
 
         static::updateStyles();
@@ -28,18 +30,18 @@ class TailwindCssPreset extends Preset
 
     protected static function updateStyles(): void
     {
-        Directory::delete(public_path('build'));
+        Directory::delete(Path::public('build'));
 
         File::delete(
-            File::get(public_path('hot')),
-            public_path()
+            File::get(Path::public('hot')),
+            Path::public()
         );
 
-        Directory::make(resource_path('css'));
+        Directory::make(Path::resource('css'));
 
         File::copy(
             File::get(Path::stub('resources/css/app.css')),
-            resource_path('css')
+            Path::resource('css')
         );
     }
 
@@ -51,7 +53,7 @@ class TailwindCssPreset extends Preset
             'vite.config.js',
         ])->each(static fn (string $file) => File::copy(
                 File::get(Path::stub($file)),
-                base_path()
+                Path::base()
             )
         );
     }
@@ -59,13 +61,13 @@ class TailwindCssPreset extends Preset
     protected static function updateWelcomePage(): void
     {
         File::delete(
-            File::get(resource_path('views/welcome.blade.php')),
-            resource_path()
+            File::get(Path::resource('views/welcome.blade.php')),
+            Path::resource()
         );
 
         File::copy(
             File::get(Path::stub('resources/views/welcome.blade.php')),
-            resource_path('views')
+            Path::resource('views')
         );
     }
 
@@ -73,7 +75,7 @@ class TailwindCssPreset extends Preset
     {
         Directory::copy(
             Path::stub('resources/views'),
-            resource_path('views')
+            Path::resource('views')
         );
     }
 }

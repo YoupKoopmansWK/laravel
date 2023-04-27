@@ -9,6 +9,7 @@ use Youpks\FrontendPresets\Console\Commands\FrontendPreset;
 
 class FrontendPresetServiceProvider extends ServiceProvider
 {
+    public const ROOT = 'youpks/frontend-presets';
     public function register(): void
     {
         if ($this->app->runningInConsole()) {

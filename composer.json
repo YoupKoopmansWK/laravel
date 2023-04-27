@@ -18,6 +18,13 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "youpks/auth",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "require": {
@@ -27,8 +34,9 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "spatie/laravel-data": "^3.4",
-        "youpks/support": "@dev",
-        "youpks/frontend-presets": "@dev"
+        "youpks/auth": "@dev",
+        "youpks/frontend-presets": "@dev",
+        "youpks/support": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
