@@ -1,9 +1,19 @@
 {
     "name": "youpks/frontend-presets",
     "description": "",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../support",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": "^8.1",
-        "laravel/framework": "^10.0"
+        "laravel/framework": "^10.0",
+        "youpks/support": "@dev"
     },
     "autoload": {
         "psr-4": {
