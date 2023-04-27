@@ -45,9 +45,7 @@ abstract class File
         $fileName = $outputFileName ?? $file->getFilename();
         $path = "$directory/$fileName";
 
-        if (! (new Filesystem)->exists($path)) {
-            copy($file->getPathname(), $path);
-        }
+        !(new Filesystem)->exists($path) ? copy($file->getPathname(), $path) : null;
     }
 
     /**
@@ -59,12 +57,10 @@ abstract class File
      */
     public static function delete(SplFileInfo $file, string $directory): void
     {
-        $path = $directory.'/'.$file->getFilename();
+        $path = "$directory/{$file->getFilename()}";
 
-        tap(new Filesystem, static function ($filesystem) use ($path) {
-            if ($filesystem->exists($path)) {
-                $filesystem->delete($path);
-            }
-        });
+        tap(new Filesystem, static fn ($filesystem) =>
+        $filesystem->exists($path) ? $filesystem->delete($path) : null
+        );
     }
 }

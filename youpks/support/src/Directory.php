@@ -16,11 +16,9 @@ abstract class Directory
      */
     public static function make(string $directory): void
     {
-        tap(new Filesystem, static function ($filesystem) use ($directory) {
-            if (! $filesystem->isDirectory($directory)) {
-                $filesystem->makeDirectory($directory, 0755, true);
-            }
-        });
+        tap(new Filesystem, static fn ($filesystem) =>
+        !$filesystem->isDirectory($directory) ? $filesystem->makeDirectory($directory, 0755, true) : null
+        );
     }
 
     /**
@@ -32,11 +30,9 @@ abstract class Directory
      */
     public static function copy(string $oldPath, string $newPath): void
     {
-        tap(new Filesystem, static function ($filesystem) use ($oldPath, $newPath) {
-            if ($filesystem->isDirectory($oldPath)) {
-                $filesystem->copyDirectory($oldPath, $newPath);
-            }
-        });
+        tap(new Filesystem, static fn ($filesystem) =>
+        $filesystem->isDirectory($oldPath) ? $filesystem->copyDirectory($oldPath, $newPath) : null
+        );
     }
 
     /**
@@ -47,10 +43,8 @@ abstract class Directory
      */
     public static function delete(string $directory): void
     {
-        tap(new Filesystem, static function ($filesystem) use ($directory) {
-            if ($filesystem->isDirectory($directory)) {
-                $filesystem->deleteDirectory($directory);
-            }
-        });
+        tap(new Filesystem, static fn ($filesystem) =>
+        $filesystem->isDirectory($directory) ? $filesystem->deleteDirectory($directory) : null
+        );
     }
 }

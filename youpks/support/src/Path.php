@@ -14,7 +14,7 @@ abstract class Path
      */
     public static function root(string $directory = null): string
     {
-        return base_path('vendor/youpks/frontend-presets/').$directory ?? '';
+        return app()->basePath('vendor/youpks/frontend-presets/').$directory ?? '';
     }
 
     /**
