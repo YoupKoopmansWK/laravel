@@ -6,7 +6,10 @@ help: ## Display this help
 	@printf "\n"
 
 install: ## Install the application resources
-	make build-env build-sail up generate-key frontend-pick-preset build-frontend migrate
+	make build-env build-sail up generate-key frontend-preset ${preset} ${auth} build-frontend migrate
+
+install-tailwind-auth: ## Install the application resources with tailwindcss and auth
+	make build-env build-sail up generate-key frontend-preset preset=tailwindcss auth=Yes build-frontend migrate
 
 update: ## Update the application resources
 	make up composer-install build-frontend migrate
@@ -33,12 +36,11 @@ watch-frontend: ## Watch the frontend
 	${SAIL} npm install
 	${SAIL} npm run dev
 
-frontend-pick-preset: ## Pick a preset for the frontend
-	make frontend-preset preset=tailwindcss auth=Yes
-	${SAIL} npm install -D tailwindcss postcss autoprefixer
-
 frontend-preset: ## Frontend preset
 	${SAIL} artisan youpks:frontend-preset ${preset} ${auth}
+	@if [ ${preset} = tailwindcss ]; then\
+		${SAIL} npm install -D tailwindcss postcss autoprefixer;\
+	fi
 
 migrate: ## Run the migrations
 	${SAIL} artisan migrate
