@@ -20,7 +20,6 @@ class TailwindCssPresetServiceProvider extends ServiceProvider
             $command->info('Tailwind CSS scaffolding installed successfully.');
 
             Builder::build();
-//            AuthPreset::install($command->option('auth'));
 
             if ($command->option('auth')) {
                 $command->info('Tailwind CSS auth scaffolding installed successfully.');

@@ -27,32 +27,4 @@ class ControllerBuilder extends Builder
             )
         );
     }
-
-    protected static function buildHomePageController(): void
-    {
-        $pageTitle = 'Home';
-
-        Directory::make(Path::controller('Page'));
-
-        file_put_contents(Path::controller("Page/{$pageTitle}PageController.php"), static::compilePageControllerStub($pageTitle));
-    }
-
-    protected static function compilePageControllerStub(string $title): array|false|string
-    {
-        return str_replace(
-            [
-                '{{namespace}}',
-                '{{title}}',
-                '{{PascalCaseTitle}}',
-                '{{kebab-case-title}}',
-            ],
-            [
-                Container::getInstance()->getNamespace(),
-                $title,
-                Str::ucfirst(Str::camel($title)),
-                Str::kebab($title),
-            ],
-            file_get_contents(Path::stub('src/Controllers/Page/PageController.stub'))
-        );
-    }
 }

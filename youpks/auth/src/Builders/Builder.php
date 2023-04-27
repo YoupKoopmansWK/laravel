@@ -15,7 +15,6 @@ class Builder
         Path::setStub();
 
         ControllerBuilder::buildAuthControllers();
-        ControllerBuilder::buildHomePageController();
 
         RouteBuilder::buildAuthRoutes();
         RouteBuilder::buildHomePageRoute();

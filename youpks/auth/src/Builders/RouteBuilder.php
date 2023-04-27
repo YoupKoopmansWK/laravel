@@ -24,15 +24,6 @@ class RouteBuilder extends Builder
         );
     }
 
-    protected static function buildHomePageRoute(): void
-    {
-        file_put_contents(
-            Path::root('routes/routes.php'),
-            "\n\nRoute::get('home', \Youpks\Auth\Controllers\Page\HomePageController::class)->name('page.home');",
-            FILE_APPEND
-        );
-    }
-
     private static function createAuthRoutesDirectory(): void
     {
         Directory::make(Path::root('routes/auth'));
