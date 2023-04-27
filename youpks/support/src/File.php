@@ -60,7 +60,7 @@ abstract class File
         $path = "$directory/{$file->getFilename()}";
 
         tap(new Filesystem, static fn ($filesystem) =>
-        $filesystem->exists($path) ? $filesystem->delete($path) : null
+            $filesystem->exists($path) ? $filesystem->delete($path) : null
         );
     }
 }

@@ -1,4 +1,5 @@
 SAIL := ./vendor/bin/sail
+YOUPKS_BIN := ./vendor/bin/youpks
 
 help: ## Display this help
 	@printf "\nUsage: make <commands> \n\nthe following commands are available: \n"
@@ -6,21 +7,26 @@ help: ## Display this help
 	@printf "\n"
 
 install: ## Install the application resources
-	make build-env build-sail up generate-key frontend-preset ${preset} ${auth} build-frontend migrate
+	make build-env build-sail move-bash-scripts up generate-key frontend-preset ${preset} ${auth} build-frontend migrate
 
 install-tailwind-auth: ## Install the application resources with tailwindcss and auth
-	make build-env build-sail up generate-key frontend-preset preset=tailwindcss auth=Yes build-frontend migrate
+	make build-env build-sail move-bash-scripts up generate-key frontend-preset preset=tailwindcss auth=Yes build-frontend migrate
 
 update: ## Update the application resources
 	make up composer-install build-frontend migrate
 
 build-env: ## Build the environment file
-	chmod +x ./bin/build_env
-	./bin/build_env
+	chmod +x ./bin/build-env
+	./bin/build-env
 
 build-sail: ## Build the sail docker image
-	chmod +x ./bin/build_sail
-	./bin/build_sail
+	chmod +x ./bin/build-sail
+	./bin/build-sail
+
+move-bash-scripts: ## Move bash scripts to ./vendor/bin/youpks
+	mkdir -p ${YOUPKS_BIN}
+	mv ./bin/* ${YOUPKS_BIN}
+	rm -rf ./bin
 
 up: ## Start sail with daemon
 	${SAIL} up -d
@@ -50,3 +56,7 @@ composer-install: ## Run composer install
 
 cs-fixer: ## Run php-cs-fixer
 	${SAIL} php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v
+
+youpks-bin: ## Run a youpks bin
+	chmod +x ${YOUPKS_BIN}/*
+	${YOUPKS_BIN}/${script}

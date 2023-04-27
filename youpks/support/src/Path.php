@@ -6,6 +6,8 @@ namespace Youpks\Support;
 
 abstract class Path
 {
+    public static string $stubPath;
+
     /**
      * Get the root path of the package.
      *
@@ -29,5 +31,21 @@ abstract class Path
         return isset($stubPath)
             ? "$stubPath/routes/$directory"
             : app()->basePath("routes/$directory");
+    }
+
+    /**
+     * Get the path to the routes directory.
+     *
+     * @param string|null $path
+     * @return void
+     */
+    public static function setStub(string $path = null): void
+    {
+        self::$stubPath = self::root('stubs/').(isset($path) ? $path.'/' : null);
+    }
+
+    public static function stub(string $path = null): string
+    {
+        return self::$stubPath.(isset($path) ? '/'.$path : null);
     }
 }

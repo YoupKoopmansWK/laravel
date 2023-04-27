@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Youpks\FrontendPresets\Presets;
 
-use Youpks\Support;
+use Youpks\Support\Directory;
+use Youpks\Support\File;
+use Youpks\Support\Path;
+use Laravel\Ui\Presets\Preset;
 
 class TailwindCssPreset extends Preset
 {
     public static function install(bool $authOption = false): void
     {
-        static::setStubPath('tailwind');
+        Path::setStub('tailwind');
 
         static::updateStyles();
         static::updateBootstrapping();
@@ -25,17 +28,17 @@ class TailwindCssPreset extends Preset
 
     protected static function updateStyles(): void
     {
-        Support\Directory::delete(public_path('build'));
+        Directory::delete(public_path('build'));
 
-        Support\File::delete(
-            Support\File::get(public_path('hot')),
+        File::delete(
+            File::get(public_path('hot')),
             public_path()
         );
 
-        Support\Directory::make(resource_path('css'));
+        Directory::make(resource_path('css'));
 
-        Support\File::copy(
-            Support\File::get(self::getStubPath().'resources/css/app.css'),
+        File::copy(
+            File::get(Path::stub('resources/css/app.css')),
             resource_path('css')
         );
     }
@@ -46,8 +49,8 @@ class TailwindCssPreset extends Preset
             'tailwind.config.js',
             'postcss.config.js',
             'vite.config.js',
-        ])->each(static fn (string $file) => Support\File::copy(
-                Support\File::get(self::getStubPath(). ($file)),
+        ])->each(static fn (string $file) => File::copy(
+                File::get(Path::stub($file)),
                 base_path()
             )
         );
@@ -55,21 +58,21 @@ class TailwindCssPreset extends Preset
 
     protected static function updateWelcomePage(): void
     {
-        Support\File::delete(
-            Support\File::get(resource_path('views/welcome.blade.php')),
+        File::delete(
+            File::get(resource_path('views/welcome.blade.php')),
             resource_path()
         );
 
-        Support\File::copy(
-            Support\File::get(self::getStubPath().'resources/views/welcome.blade.php'),
+        File::copy(
+            File::get(Path::stub('resources/views/welcome.blade.php')),
             resource_path('views')
         );
     }
 
     protected static function scaffoldAuthViews(): void
     {
-        Support\Directory::copy(
-            self::getStubPath().'resources/views',
+        Directory::copy(
+            Path::stub('resources/views'),
             resource_path('views')
         );
     }

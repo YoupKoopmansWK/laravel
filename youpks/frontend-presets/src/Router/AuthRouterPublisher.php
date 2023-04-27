@@ -4,38 +4,42 @@ declare(strict_types=1);
 
 namespace Youpks\FrontendPresets\Router;
 
-use Youpks\Support;
+use Youpks\Support\Directory;
+use Youpks\Support\File;
+use Youpks\Support\Path;
 use SplFileInfo;
 
 class AuthRouterPublisher
 {
-    public static function publish(string $stubPath): void
+    public static function publish(): void
     {
+        Path::setStub();
+
         self::createAuthRoutesDirectory();
-        self::copyAuthRoutesFiles($stubPath);
-        self::createAuthRoutesMainFile($stubPath);
+        self::copyAuthRoutesFiles();
+        self::createAuthRoutesMainFile();
     }
 
     private static function createAuthRoutesDirectory(): void
     {
-        Support\Directory::make(Support\Path::routes('auth'));
+        Directory::make(Path::routes('auth'));
     }
 
-    private static function copyAuthRoutesFiles(string $stubPath): void
+    private static function copyAuthRoutesFiles(): void
     {
-        Support\File::collection(Support\Path::routes('auth', $stubPath))->each(static fn (SplFileInfo $file) =>
-            Support\File::copy(
+        File::collection(Path::routes('auth', Path::stub()))->each(static fn (SplFileInfo $file) =>
+            File::copy(
                     $file,
-                    Support\Path::routes('auth')
+                    Path::routes('auth')
                 )
             );
     }
 
-    private static function createAuthRoutesMainFile(string $stubPath): void
+    private static function createAuthRoutesMainFile(): void
     {
-        Support\File::copy(
-            Support\File::get(Support\Path::routes('auth.php', $stubPath)),
-            Support\Path::routes()
+        File::copy(
+            File::get(Path::routes('auth.php', Path::stub())),
+            Path::routes()
         );
     }
 }
