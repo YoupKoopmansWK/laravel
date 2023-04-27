@@ -47,3 +47,6 @@ migrate: ## Run the migrations
 
 composer-install: ## Run composer install
 	${SAIL} composer install
+
+cs-fixer: ## Run php-cs-fixer
+	${SAIL} php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v
