@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace Youpks\FrontendPresets\Presets;
 
-use Illuminate\Support\Arr;
-use Youpks\FrontendPresets\Traits\FileSupport;
+use Youpks\Support;
 
 class TailwindCssPreset extends Preset
 {
-    use FileSupport;
-
     public static function install(bool $authOption = false): void
     {
         static::setStubPath('tailwind');
 
-        static::updatePackages();
         static::updateStyles();
         static::updateBootstrapping();
         static::updateWelcomePage();
@@ -27,30 +23,19 @@ class TailwindCssPreset extends Preset
         static::removeNodeModules();
     }
 
-    protected static function updatePackageArray(array $packages): array
-    {
-        return array_merge([
-            'postcss' => '^8.4.23',
-            'tailwindcss' => '^3.3.2',
-        ], Arr::except($packages, [
-            'bootstrap',
-            'bootstrap-sass',
-            'popper.js',
-            'laravel-mix',
-            'jquery',
-        ]));
-    }
-
     protected static function updateStyles(): void
     {
-        self::deleteDirectory(public_path('build'));
+        Support\Directory::delete(public_path('build'));
 
-        self::deleteFile(self::getFile(public_path('hot')), public_path());
+        Support\File::delete(
+            Support\File::get(public_path('hot')),
+            public_path()
+        );
 
-        self::makeDirectory(resource_path('css'));
+        Support\Directory::make(resource_path('css'));
 
-        self::copyFile(
-            self::getFile(self::getStubPath().'resources/css/app.css'),
+        Support\File::copy(
+            Support\File::get(self::getStubPath().'resources/css/app.css'),
             resource_path('css')
         );
     }
@@ -61,9 +46,8 @@ class TailwindCssPreset extends Preset
             'tailwind.config.js',
             'postcss.config.js',
             'vite.config.js',
-        ])->each(static fn (string $file) =>
-            self::copyFile(
-                self::getFile(self::getStubPath(). ($file)),
+        ])->each(static fn (string $file) => Support\File::copy(
+                Support\File::get(self::getStubPath(). ($file)),
                 base_path()
             )
         );
@@ -71,20 +55,20 @@ class TailwindCssPreset extends Preset
 
     protected static function updateWelcomePage(): void
     {
-        self::deleteFile(
-            self::getFile(resource_path('views/welcome.blade.php')),
+        Support\File::delete(
+            Support\File::get(resource_path('views/welcome.blade.php')),
             resource_path()
         );
 
-        self::copyFile(
-            self::getFile(self::getStubPath().'resources/views/welcome.blade.php'),
+        Support\File::copy(
+            Support\File::get(self::getStubPath().'resources/views/welcome.blade.php'),
             resource_path('views')
         );
     }
 
     protected static function scaffoldAuthViews(): void
     {
-        self::copyDirectory(
+        Support\Directory::copy(
             self::getStubPath().'resources/views',
             resource_path('views')
         );

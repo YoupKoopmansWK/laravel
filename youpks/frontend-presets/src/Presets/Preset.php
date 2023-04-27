@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Youpks\FrontendPresets\Presets;
 
 use Laravel\Ui\Presets\Preset as UiPreset;
+use Youpks\Support;
 
 abstract class Preset extends UiPreset
 {
@@ -18,7 +19,7 @@ abstract class Preset extends UiPreset
      */
     public static function setStubPath(string $path = null): void
     {
-        self::$stubPath = root_path('stubs/').(isset($path) ? $path.'/' : null);
+        self::$stubPath = Support\Path::root('stubs/').(isset($path) ? $path.'/' : null);
     }
 
     public static function getStubPath(): string

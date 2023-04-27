@@ -8,12 +8,10 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 use Youpks\FrontendPresets\Router\AuthRouterPublisher;
-use Youpks\FrontendPresets\Traits\FileSupport;
+use Youpks\Support;
 
 class AuthPreset extends Preset
 {
-    use FileSupport;
-
     public static function install(bool $authOption = false): void
     {
         static::setStubPath();
@@ -29,10 +27,10 @@ class AuthPreset extends Preset
 
     protected static function scaffoldAuthControllers(): void
     {
-        self::makeDirectory(app_path('Http/Controllers/Auth'));
+        Support\Directory::make(app_path('Http/Controllers/Auth'));
 
-        self::getFiles(base_path('vendor/laravel/ui/stubs/Auth'))->each(static fn (SplFileInfo $file) =>
-            self::copyFile(
+        Support\File::collection(base_path('vendor/laravel/ui/stubs/Auth'))->each(static fn (SplFileInfo $file) =>
+            Support\File::copy(
                 $file,
                 app_path('Http/Controllers/Auth'),
                 Str::replaceLast('.stub', '.php', $file->getFilename())
@@ -44,7 +42,7 @@ class AuthPreset extends Preset
     {
         $pageTitle = 'Home';
 
-        self::makeDirectory(app_path('Http/Controllers/Page'));
+        Support\Directory::make(app_path('Http/Controllers/Page'));
 
         file_put_contents(app_path("Http/Controllers/Page/{$pageTitle}PageController.php"), static::compilePageControllerStub($pageTitle));
     }
@@ -52,7 +50,7 @@ class AuthPreset extends Preset
     protected static function scaffoldHomePageRoute(): void
     {
         file_put_contents(
-            routes_path('web.php'),
+            Support\Path::routes('web.php'),
             "\n\nRoute::get('home', \App\Http\Controllers\Page\HomePageController::class)->name('page.home');",
             FILE_APPEND
         );
@@ -63,7 +61,7 @@ class AuthPreset extends Preset
         AuthRouterPublisher::publish(self::getStubPath());
 
         file_put_contents(
-            routes_path('web.php'),
+            Support\Path::routes('web.php'),
             "\n\nrequire __DIR__.'/auth.php';",
             FILE_APPEND
         );
@@ -71,8 +69,8 @@ class AuthPreset extends Preset
 
     protected static function scaffoldMigrations(): void
     {
-        self::getFiles(base_path('vendor/laravel/ui/stubs/migrations'))->each(static fn (SplFileInfo $file) =>
-            self::copyFile(
+        Support\File::collection(base_path('vendor/laravel/ui/stubs/migrations'))->each(static fn (SplFileInfo $file) =>
+            Support\File::copy(
                 $file,
                 database_path('migrations')
             )

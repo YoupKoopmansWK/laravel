@@ -1,5 +1,5 @@
 {
-    "name": "youpks/frontend-presets",
+    "name": "youpks/support",
     "description": "",
     "require": {
         "php": "^8.1",
@@ -7,20 +7,16 @@
     },
     "autoload": {
         "psr-4": {
-            "Youpks\\FrontendPresets\\": "src/"
+            "Youpks\\Support\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Youpks\\FrontendPresets\\Tests\\": "tests/"
+            "Youpks\\Support\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Youpks\\FrontendPresets\\Providers\\FrontendPresetServiceProvider",
-                "Youpks\\FrontendPresets\\Providers\\TailwindCssPresetServiceProvider"
-            ],
             "aliases": {
             }
         }

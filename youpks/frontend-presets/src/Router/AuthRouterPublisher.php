@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Youpks\FrontendPresets\Router;
 
-use Youpks\FrontendPresets\Traits\FileSupport;
+use Youpks\Support;
 use SplFileInfo;
 
 class AuthRouterPublisher
 {
-    use FileSupport;
-
     public static function publish(string $stubPath): void
     {
         self::createAuthRoutesDirectory();
@@ -20,24 +18,24 @@ class AuthRouterPublisher
 
     private static function createAuthRoutesDirectory(): void
     {
-        self::makeDirectory(routes_path('auth'));
+        Support\Directory::make(Support\Path::routes('auth'));
     }
 
     private static function copyAuthRoutesFiles(string $stubPath): void
     {
-        self::getFiles(routes_path('auth', $stubPath))->each(static fn (SplFileInfo $file) =>
-            self::copyFile(
-                $file,
-                routes_path('auth')
-            )
-        );
+        Support\File::collection(Support\Path::routes('auth', $stubPath))->each(static fn (SplFileInfo $file) =>
+            Support\File::copy(
+                    $file,
+                    Support\Path::routes('auth')
+                )
+            );
     }
 
     private static function createAuthRoutesMainFile(string $stubPath): void
     {
-        self::copyFile(
-            self::getFile(routes_path('auth.php', $stubPath)),
-            routes_path()
+        Support\File::copy(
+            Support\File::get(Support\Path::routes('auth.php', $stubPath)),
+            Support\Path::routes()
         );
     }
 }
