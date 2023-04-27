@@ -2,11 +2,11 @@ install: ## Install the application resources
 	make build-env build-sail up generate-key build-frontend migrate
 
 build-env: ## Build the environment file
-	chmod 777 ./bin/build_env
+	chmod +x ./bin/build_env
 	./bin/build_env
 
 build-sail: ## Build the sail docker image
-	chmod 777 ./bin/build_sail
+	chmod +x ./bin/build_sail
 	./bin/build_sail
 
 up: ## Start sail with daemon
