@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+    WORKING_DIR=$( cd -P "$( dirname ${BASH_SOURCE[0]} )" && cd ../ >/dev/null && pwd )
+    ENV_EXAMPLE_FILE=$WORKING_DIR/.env.example
+    ENV_FILE=$WORKING_DIR/.env
+
+    echo What is the name of your app?
+    read APP_NAME
+    echo What is the name of your app domain?
+    read APP_DOMAIN
+    echo What is the name of your database?
+    read DB_DATABASE
+
+    cp -f "$ENV_EXAMPLE_FILE" "$ENV_FILE"
+    sed -i '' "s/{{APP_NAME}}/$APP_NAME/g" "$ENV_FILE"
+    sed -i '' "s/{{APP_DOMAIN}}/$APP_DOMAIN/g" "$ENV_FILE"
+    sed -i '' "s/{{DB_DATABASE}}/$DB_DATABASE/g" "$ENV_FILE"
+
+    echo "Your .env file has been created."
+
+
+
